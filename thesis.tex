@@ -62,7 +62,6 @@ Thesis for Master of Science Degree \\
 
 \maketitle
 
-\begin{titlepage}
     \begin{center}
         {\bf\large Multiple UAV Deployment for Service Time and Throughput Maximization in Disaster Areas}\\
         {Postgraduate: Chen-Yu Yu \hspace{8mm} Advisor: Prof. Sok-Ian Sou}\\
@@ -75,22 +74,11 @@ Thesis for Master of Science Degree \\
         {\bf Abstract}\\
     \end{center}
     \paragraph{}
-    In times of disaster, a flexible and responsive emergency communication network is essential for saving lives and properties, especially after incidents such as hurricanes and floods when terrestrial base stations are not operational. Under such conditions, using unmanned aerial vehicles (UAVs) as aerial base stations is a promising solution due to their agility, mobility, and flexibility. In this work, we deploy multiple UAVs and aim to maximize total user service time while satisfying users' Quality-of-Service (QoS) requirements. Our proposed method divides the target area into several regions based on Voronoi Diagram to effectively serve users under the current distribution of users. By moving circles in each region, we can discover the optimal placement of service areas. Then, we deploy UAVs to service areas with maximum total service time. Our simulation results demonstrate the effectiveness of our approach for achieving higher total service times and fulfilling QoS requirements for users.\\
+    In times of disaster, a flexible and responsive emergency communication network is essential for saving lives and properties, especially after incidents such as hurricanes and floods when terrestrial base stations are not operational. Under such conditions, using unmanned aerial vehicles (UAVs) as aerial base stations is a promising solution due to their agility, mobility, and flexibility. In this work, we deploy multiple UAVs in 3D and aim to maximize total user service time while satisfying users' Quality-of-Service (QoS) requirements. Our proposed method divides the target area into several regions based on Voronoi Diagram to effectively serve users under the current distribution of users. By moving circles in each region, we can discover the optimal placement of service areas. Then, we deploy UAVs to service areas with maximum total service time. Our simulation results demonstrate the effectiveness of our approach for achieving higher total service times and fulfilling QoS requirements for users.\\
     
-    \textbf{Keywords:} {unmanned aerial vehicle (UAV), aerial base station, 3D deployment, service time, clustering algorithm}
-\end{titlepage}
-
+    \textbf{Keywords:} {unmanned aerial vehicle (UAV), aerial base station, 3D deployment, service time, Voronoi Diagram}
 \pagenumbering{roman}
-\setcounter{page}{4}
-\addcontentsline{toc}{section}{Contents}
-\tableofcontents \newpage
-\addcontentsline{toc}{section}{List of Figures}
-\listoffigures \newpage
-\addcontentsline{toc}{section}{List of Tables}
-\listoftables \newpage
-\pagenumbering{roman}
-\setcounter{page}{1}
-\pagenumbering{arabic}
+\setcounter{page}{2}
 
 %*------------------------------------------------------
 \chapter{Introduction}
@@ -125,7 +113,7 @@ The rest of the paper is organized as follows. In Chapter~2, we review related w
 \paragraph{}
 The problem of finding optimal deployment and trajectory of multiple UAVs has been studied extensively to improve network coverage and performance. For instance, Sun et el. \cite{b14} utilize Voronoi Diagram and proposed the SD-KMVR algorithm to maximize user coverage and power efficiency. The proposed method seeks the optimal placement of user coverage areas by shrinking and moving them from the maximum allowed radius. By ensuring users' QoS requirement while considering co-channel interference when deploying multiple UAVs, in \cite{b15} proposes a solution to maximize throughput by optimizing UAV's altitude and transmit power. For the continuous movement of users, the authors in \cite{b16} propose a machine learning-based approach. At first, the initial user partition is given by the GAK-means algorithm. Then a Q-learning algorithm is applied to adapt to users' movement and decide the 3D deployment of UAVs. In \cite{b17} aim to maximize service time under limited energy by minimizing the energy consumption used by the trajectory of UAVs.
 \paragraph{}
-As for utilizing UAVs to provide communication service under emergencies, in \cite{b18} UAVs are used in disaster areas to restore communication and maintain network connectivity. The authors develop a K-means clustering-based algorithm that considers the decision time and energy efficiency needed to provide optimal resource allocation. In \cite{b19} the authors focus on conveying emergency messages in coverage holes with UAV. The proposed algorithm considers the trajectory of UAVs to send messages with the shortest mission completion time. The work in \cite{b20} integrates UAVs and LEO satellites in emergency areas without ground facilities to meet the QoS requirements of different users. The proposed solution optimizes the 3D location, power, and bandwidth of UAVs.
+As for utilizing UAVs to provide communication service under emergencies, in \cite{b18} UAVs are used in disaster areas to restore communication and maintain network connectivity. The authors develop a K-means clustering-based algorithm that considers the decision time and energy efficiency needed to provide optimal resource allocation. In \cite{b19} the authors focus on conveying emergency messages in coverage holes with UAVs. The proposed algorithm considers the trajectory of UAVs to send messages with the shortest mission completion time. The work in \cite{b20} integrates UAVs and LEO satellites in emergency areas without ground facilities to meet the QoS requirements of different users. The proposed solution optimizes the 3D location, power, and bandwidth of UAVs.
 \paragraph{}
 The cost of UAV travel and the continuous movement of ground users are rarely considered in UAV deployment problems. However, UAV's travel time and user's sojourn time are two major factors that will affect a user's service time. In the worst-case scenario, UAV might not serve any user when it moves to a new location since all users have already left, which results in a waste of the already limited onboard UAV resource and potential to serve other users. On the other hand, each user's QoS requirement is also a major factor in UAV deployment. Users would like to send and receive new information on their devices. In this paper, we will address this problem through our proposed approach by using the in-service time and meeting users' QoS requirements.
 
@@ -144,7 +132,7 @@ We consider a square area with a set of terrestrial base stations $T$ remaining 
 \end{figure}
 
 \paragraph{}
-Inside the square area also contains a set of users $U$, where we assume each user $u$'s coordinates $(x_{u},y_{u},z_{u}), u = 1, 2, \ldots, U$ is known and has a QoS requirement $t_{u}$, $u = 1, 2, \ldots, U$ with an estimated sojourn time $s_{u}$, $u = 1, 2, \ldots, U$. The sojourn time for each user will not exceed the deployment interval. When a user's sojourn time ends, the user will start moving to its next location and have a new sojourn time after arriving at the new destination. Each UAV $w$ has a limited user serving capacity $N$, and each user will only be served by at most one UAV at a time. If UAV $w$ is moving from $c_{w}$ to $\hat{c_{w}}$ with a travel time $t_{w}(c_{w}, \hat{c_{w}})$ to serve user $u$, user $u$'s in-service time $i_{u}$ is $max\{0, s_{u} - t_{w}(c_{w}, \hat{c_{w}})\}$. An illustration of the complete system model is given in Fig.~\ref{fig:System Model Example}.
+Inside the square area also contains a set of users $U$, where we assume each user $u$'s coordinates $(x_{u},y_{u},z_{u}), u = 1, 2, \ldots, U$ is known and has a QoS requirement $t_{u}$, $u = 1, 2, \ldots, U$ with an estimated sojourn time $s_{u}$, $u = 1, 2, \ldots, U$. The sojourn time for each user will not exceed the deployment interval. When a user's sojourn time ends, the user will start moving to its next location and have a new sojourn time after arriving at the new destination. Each UAV $w$ has a limited user serving capacity $N$, and each user will only be served by at most one UAV at a time. If UAV $w$ is moving from $c_{w}$ to $\hat{c_{w}}$ with a travel time $t_{w}(c_{w}, \hat{c_{w}})$ to serve user $u$, user $u$'s in-service time $i_{u}$ is $max\{0, s_{u} - t_{w}(c_{w}, \hat{c_{w}})\}$. An illustration of the complete system model is given in Figure~\ref{fig:System Model Example}.
 
 \section{Channel Model}
 \paragraph{}
@@ -212,7 +200,7 @@ The list of notations given in two subsections is summarized in Table~\ref{table
 
 \chapter{In-Service Time based 3D UAV deployment with QoS awareness}
 \paragraph{}
-To achieve our goal of maximizing total in-service time while satisfying users' QoS requirements with a limited number of UAVs, we propose DSA. DSA involves two steps, where we will first create service areas and then deploy UAVs. Due to the repositioning of service areas and redeployment of UAVs based on the snapshot of current user distribution in every deployment interval, the DSA algorithm is considered an offline algorithm. The flow chart of DSA is shown in Figure~\ref{fig:DSA Block Diagram}. In the following subsections, we will discuss the methods used in each step.
+To achieve our goal of maximizing total in-service time while satisfying users' QoS requirements with a limited number of UAVs, we propose DSA. DSA involves two steps, where we will first create service areas and then deploy UAVs. Due to the repositioning of service areas and redeployment of UAVs being based on the snapshot of current user distribution in every deployment interval, the DSA algorithm is considered an offline algorithm. The flow chart of DSA is shown in Figure~\ref{fig:DSA Block Diagram}. In the following subsections, we will discuss the methods used in each step.
 
 \begin{figure} [ht]
     \centering
@@ -225,7 +213,7 @@ To achieve our goal of maximizing total in-service time while satisfying users' 
 
 \section{Create Service Areas}
 \paragraph{}
-By creating service areas, we can conveniently identify possible placements within the 3D space that meet our objectives. However, finding the optimal placement and size of service areas is not a trivial problem and will seriously impact the performance of our goal. As users' location in the network changes over time, service areas' placement has to update accordingly to provide maximum in-service time. On the other hand, service areas' radius and height must also be optimized to meet users' QoS requirements. If the service area has a radius too large, some users might be too far away from the UAV, which makes meeting these users' QoS requirements more challenging. Moreover, as more users may be served within a greater radius, it may be more difficult to satisfy all users' QoS needs since the bandwidth is shared. By contrast, a small service area might only serve a few users. This may result in the UAV not reaching its service capacity, but serving fewer users and reducing the in-service time it may be able to provide.
+By creating service areas, we can conveniently identify possible placements within the 3D space that meet our objectives. However, finding the optimal placement and size of service areas is not a trivial problem and will seriously impact the performance of our goal. As users' location in the network changes over time, service areas' placement has to update accordingly to provide maximum in-service time. On the other hand, service areas' radius and height must also be optimized to meet users' QoS requirements. If the service area has a radius too large, some users might be too far away from the UAV, which makes meeting these users' QoS requirements more challenging. Moreover, as more users may be served within a greater radius, it may be more difficult to satisfy all users' QoS needs since the bandwidth is shared. By contrast, a small service area might only serve a few users, which may result in the UAV not reaching its service capacity, but serving fewer users and reducing the in-service time it may be able to provide.
 \paragraph{}
 Before generating service areas, it will be beneficial to cluster all users in the network to serve as many users as possible. Through clustering, the distribution of users can be discovered, such as where users are more densely populated and also find out the centroid of users in each cluster. As for our clustering method, we use the well-known and popular K-means clustering. We divide users into $R$ clusters and form the Voronoi diagram. Inside the Voronoi diagram contains several regions formed by a set of boundary lines $l_r , r = 1, 2, \ldots, R$. The UAV deployment problem can be substantially simplified by placing service areas in each region so they will not overlap, thus preventing inter-cell interference caused by deploying multiple UAVs.
 \paragraph{}
@@ -237,7 +225,7 @@ Since users will leave their current location after their sojourn time ends, the
     \addConstraint{|c_u| \leq N,\ \forall c_u = 1,                              \label{op:con3}}
     \addConstraint{(x_s-l_r)^{2}+(y_s-l_r)^{2}\geq bs^{2},\ \forall r \in R     \label{op:con4}}
 \end{maxi!}
-where constraint (\ref{op:con1}) is to ensure all users served by the UAV will satisfy their QoS requirement. Constraint (\ref{op:con2}) indicates the serving status of user $u$, while $c_u = 1$ denotes user $u$ is served by this service area and $c_u = 0$ does not. As UAVs have a limited number of users they can serve, constraint (\ref{op:con3}) ensures UAVs will only serve users under their serving capacity $N$. Considering that service areas can only move within their respective regions, constraint (\ref{op:con4}) verifies whether the current service area is within boundary lines.
+where constraint (\ref{op:con1}) is to ensure all users served by the UAV will satisfy their QoS requirement. Constraint (\ref{op:con2}) indicates the serving status of user $u$, while $c_u = 1$ denotes user $u$ is served by this service area and $c_u = 0$ does not. As UAVs have a limited number of users they can serve, constraint (\ref{op:con3}) ensures UAVs will only serve users under their serving capacity $N$. Considering that service areas can only move in their respective regions, constraint (\ref{op:con4}) verifies whether the current service area is within boundary lines.
 
 \section{Deploy UAVs}
 \paragraph{}
@@ -245,10 +233,10 @@ After having a list of service areas, we can then deploy UAVs to different servi
 
 \section{Dynamic Service Area Algorithm}
 \paragraph{}
-Algorithm~\ref{alg:DSA} is the pseudocode of the proposed DSA algorithm. First, in Line~1, list $L$ is initialized to collect the information of all service areas for all UAVs. Since UAVs will not deploy to areas where terrestrial base stations remain operational, Line~2 will remove all terrestrial base stations' coverage areas in all regions. Line~3-21 is the segment for creating service areas. The algorithm will generate service areas for all UAVs in all regions since each UAV's current location might be distinct (Lines~3-4). To know the maximum radius available, we calculate $b_{max}$ for the maximum radius in this region (Line 5). In Line~6 and 7, we initialize $b_s$ with $b_i$ to track the current radius of the service area, and also $I_{best}$ to save the most optimal in-service time result. From Line 11 through 17, the algorithm checks every possible placement of the service area until reaching the maximum possible radius in the region. Circle $c$ will be formed with the current radius $b_s$ (Line 9). In Line~10, with circle $c$, we can obtain the optimal placement of the service area in ($x_s, y_s, z_s$) that has maximum in-service time $I_{sum}$ by solving the optimization problem (\ref{op}). From Line 11 to 16, if $I_{sum}$'s in-service time is larger than the previous best in-service time $I_{best}$, we will save $I_{sum}$ as the new best in-service time and increase $b_{s}$ for the next round. If $I_{sum}$'s in-service time is less than or equal to $S_{best}$, it shows that we have already found the optimal placement and in-service time result, which indicates we can break the while loop. The final coordinates of the service area are then saved to $c_s$ (Line~18). Results including the current UAV, the service area coordinates, and the in-service time will be added to the list $L$ (Line~19). From Lines~22 to 27 is the deployment for all UAVs. By examining list $L$, we find the service area located at $c_m$ with the maximum in-service time provided by UAV $w$ (Line~23). We then assign UAV $w$'s deploying location as $c_m$ (Line~24). Since UAV can only serve one location, we remove UAV $w$ from list $L$ (Line~25). As one region can also be served by one UAV, we will also remove service area $s$ from list $L$ (Line~26). Finally, in Line 20, we return the new deploying coordinates $\hat{c_{w}}$ for all UAVs $W$. An example result of the Dynamic Service Area Algorithm is shown in Figure~\ref{fig:DSA example}.
+Algorithm~\ref{alg:DSA} is the pseudocode of the proposed DSA algorithm. First, in Line~1, list $L$ is initialized to collect the information of all service areas for all UAVs. Since UAVs will not deploy to areas where terrestrial base stations remain operational, Line~2 will remove all terrestrial base stations' coverage areas in all regions. Line~3-21 is the segment for creating service areas. The algorithm will generate service areas for all UAVs in all regions since each UAV's current location might be distinct (Lines~3-4). To know the maximum radius available, we calculate $b_{max}$ for the maximum radius in this region (Line 5). In Line~6 and 7, we initialize $b_s$ with $b_i$ to track the current radius of the service area, and also $I_{best}$ to save the most optimal in-service time result. From Line 8 through 17, the algorithm checks every possible placement of the service area until reaching the maximum possible radius in the region. Circle $c$ will be formed with the current radius $b_s$ (Line 9). In Line~10, with circle $c$, we can obtain the optimal placement of the service area in ($x_s, y_s, z_s$) that has maximum in-service time $I_{sum}$ by solving the optimization problem (\ref{op}). From Line 11 to 16, if $I_{sum}$'s in-service time is larger than the previous best in-service time $I_{best}$, we will save $I_{sum}$ as the new best in-service time and increase $b_{s}$ for the next round. If $I_{sum}$'s in-service time is less than or equal to $S_{best}$, it shows that we have already found the optimal placement and in-service time result, which indicates we can break the while loop. The final coordinates of the service area are then saved to $c_s$ (Line~18). Results including the current UAV, the service area coordinates, and the in-service time will be added to the list $L$ (Line~19). From Lines~22 to 28 is the deployment for all UAVs. By examining list $L$, we find the service area located at $c_m$ with the maximum in-service time provided by UAV $w$ (Line~23). We then assign UAV $w$'s new deploying location as $c_m$ (Line~24). Since UAV can only serve one location, we remove UAV $w$ from list $L$ (Line~25). As one region can also be served by one UAV, we will also remove service area $s$ from list $L$ (Line~26). Finally, in Line 28, we return the new deploying coordinates $\hat{c_{w}}$ for all UAVs $W$. An example result of the Dynamic Service Area Algorithm is shown in Figure~\ref{fig:DSA example}.
 \begin{figure} [h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{Figure 4.png}
+    \includegraphics[width=0.68\textwidth]{Figure 4.png}
     \caption{An example result of the proposed Dynamic Service Area Algorithm.}
     \label{fig:DSA example}
 \end{figure}
@@ -257,7 +245,7 @@ Algorithm~\ref{alg:DSA} is the pseudocode of the proposed DSA algorithm. First, 
     \label{alg:DSA}
     \algrenewcommand\algorithmicrequire{\textbf{Input:}}
     \algrenewcommand\algorithmicensure{\textbf{Output:}}
-    \begin{algorithmic}
+    \begin{algorithmic}[1]
     \Require $W, R, U$, Initial radius $b_{i}$
     \Ensure $\hat{c_{w}}$, $\forall w \in W$
     \State $L \gets \emptyset$
@@ -302,7 +290,7 @@ where $\theta_B$ is the antenna beamwidth of UAV and $h_s$ is the height of user
 \paragraph{}
 For our UAV deploying environment, we consider a 2000~m$^2$ sized square area located in an urban area. According to \cite{b8}, the corresponding parameters in urban area for our channel model are $(a, b)=(9.61, 0.16)$ and $(\eta _{LoS}, \eta _{NLoS})=(1, 20)$. The carrier frequency $f_c$ is 2~GHz, and the available bandwidth $B$ for each UAV is 20~MHz. Each user served by the UAV is allocated with a power of $P_u = 15$~dBm.
 \paragraph{}
-There are three terrestrial base stations that remain operational within the area, each having a service radius of 500~m. We will create eight service areas and three UAVs available for deployment. According to \cite{b22}, the communication-related power consumption in a UAV is specified as 5~W. Given the communication-related power and each user's allocated power, the maximum serving capacity $N$ can be derived as 158~users. Each UAV has a maximum flying altitude of 300~m \cite{b23} and a moving speed of 10~m/s. Based on UAV's moving speed, the deployment interval of UAVs is 300~s.
+Three terrestrial base stations remain operational within the area, each having a service radius of 500~m. Depending on the simulation scenario, four to 12 service areas are available and one to five UAVs can be deployed. According to \cite{b22}, the communication-related power consumption in a UAV is specified as 5~W. Given the communication-related power and each user's allocated power, the maximum serving capacity $N$ can be derived as 158~users. Each UAV has a maximum flying altitude of 300~m \cite{b23} and a moving speed of 10~m/s. Based on UAV's moving speed, the deployment interval of UAVs is 300~s.
 \paragraph{}
 Users are randomly generated in the simulation area with a moving speed of 1~m/s. We assume all users will move with the random waypoint mobility model \cite{b10}. Some users will be aggregated in hotzones such as shelters in disaster areas. There will be one hotzone located in the system with a radius of 50~m. For the number of users in each hotzone, we refer to the hotzone model given in \cite{b24}. The formula is shown as follows:
 \begin{equation}
@@ -314,7 +302,7 @@ For users' QoS requirements, we consider users will generally have two types of 
 \paragraph{}
 The given parameter settings are summarized in Table~\ref{table:Parameter Settings}. We obtain our simulation result with an average of 100 consecutive runs.
 
-\begin{table} [t!]
+\begin{table} [b!]
     \centering
     \caption{Parameter settings}
     \label{table:Parameter Settings}
@@ -391,7 +379,7 @@ Figure~\ref{fig:Impact on average radius} explores the average radius of all ser
 \end{figure}
 
 \paragraph{}
-Figure~\ref{fig:Impact on total in-service time with different numbers of SA} illustrates the total in-service time provided by UAVs under the different number of service areas with 2000 users. DSA and SD-KMVR will have a lower impact on total in-service time as they will move to find the optimal placement of service areas in each region. However, MSCD's total in-service time increases with the increase in service areas since it utilizes predefined locations that are static. With the expansion in service areas in MSCD, UAVs can have more choices and provide higher total in-service time. This result shows the importance of generating service areas by moving within each region, which can help to ensure the most optimal placement of service areas.
+Figure~\ref{fig:Impact on total in-service time with different numbers of SA} illustrates the total in-service time provided by UAVs under the different number of service areas with 2000 users. DSA and SD-KMVR will have a lower impact on total in-service time as they will move to find the optimal placement of service areas in each region. However, MSCD's total in-service time increases with the increase in service areas since it utilizes predefined locations that are static. With the expansion in service areas in MSCD, UAVs can have more choices and provide higher total in-service time. This result shows the importance of generating service areas by moving within each region, which can help to ensure the most optimal placement of service areas with a different number of service areas.
 \begin{figure} [h!]
     \centering
     \includegraphics[width=0.7\textwidth]{Figure 10.png}
@@ -406,7 +394,7 @@ Figure~\ref{fig:Impact on total in-service time with different numbers of SA} il
     \caption{Impact on total in-service time under different numbers of UAVs (with 2000 users and 8 service areas).}
     \label{fig:Impact on total in-service time with different numbers of UAVs}
 \end{figure}
-Figure~\ref{fig:Impact on total in-service time with different numbers of UAVs} shows the impact on total in-service time with different numbers of UAVs with 2000 users. As the number of UAVs increases, DSA will increase as more UAVs are available to provide services to users. SD-KMVR and MSCD do not produce significant increases in in-service time compared to DSA due to their inability to meet all users' requirements in some generated service areas. Due to this, the total in-service time isn't increased in spite of the increase in the number of UAVs available. This result also illustrates the necessity of considering all serving users' QoS needs when generating service areas.
+Figure~\ref{fig:Impact on total in-service time with different numbers of UAVs} shows the impact on total in-service time with different numbers of UAVs with 2000 users. As the number of UAVs increases, DSA will increase as more UAVs are available to provide services to users. SD-KMVR and MSCD do not produce significant increases in in-service time compared to DSA due to their inability to meet all users' requirements in some generated service areas. Due to this, the total in-service time isn't increased despite the increase in the number of UAVs available. This result also illustrates the necessity of considering all serving users' QoS needs when generating service areas.
 
 \begin{figure} [h!]
     \centering
@@ -415,7 +403,7 @@ Figure~\ref{fig:Impact on total in-service time with different numbers of UAVs} 
     \label{fig:Impact on total in-service time under different numbers of users with 1 Mbps QoS requirement}
 \end{figure}
 \paragraph{}
-Figure~\ref{fig:Impact on total in-service time under different numbers of users with 1 Mbps QoS requirement} present the impact on total in-service time under different numbers of users. In this simulation, the in-service result is also tested with a different number of users, however, the difference from Figure~\ref{fig:Impact on Total In-service Time} is that all users only require web browsing for their QoS needs, which is 1 Mbps. Similar to Figure~\ref{fig:Impact on Total In-service Time}, DSA performs the best among the three algorithms in terms of in-service time. The main difference from Fig.5 is that all three algorithms will increase as the number of users increases, and SD-KMVR and MSCD will not decrease after 1250 users. The reduced QoS requirement allows SD-KMVR and MSCD to meet the QoS requirements for more users when users increase. Combining the result with Figure~\ref{fig:Impact on Total In-service Time} we can observe the impact on the user's QoS requirement in in-service time.
+Figure~\ref{fig:Impact on total in-service time under different numbers of users with 1 Mbps QoS requirement} presents the impact on total in-service time under different numbers of users. In this simulation, the in-service result is also tested with a different number of users, however, the difference from Figure~\ref{fig:Impact on Total In-service Time} is that all users only require web browsing for their QoS needs, which is 1 Mbps. Similar to Figure~\ref{fig:Impact on Total In-service Time}, DSA performs the best among the three algorithms in terms of in-service time. The main difference from Figure~5 is that all three algorithms will increase in in-service time as the number of users increases, whereas SD-KMVR and MSCD will not decrease after 1250 users. The reduction in QoS requirements allows SD-KMVR and MSCD to meet the QoS requirements for more users when users increase. Combining the result with Figure~\ref{fig:Impact on Total In-service Time} we can observe the impact on the user's QoS requirement in in-service time.
 
 \chapter{Conclusion}
 \paragraph{}
